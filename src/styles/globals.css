@@ -1,0 +1,26 @@
+/* Application root static styles */
+.app-root {
+  font-family: 'Inter', sans-serif;
+}
+
+@keyframes scanLine {
+  0% { top: 0%; opacity: 1; }
+  50% { top: 95%; opacity: 0.8; }
+  100% { top: 0%; opacity: 1; }
+}
+
+.scan-line {
+  animation: scanLine 1.6s ease-in-out infinite;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}

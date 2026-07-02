@@ -61,9 +61,9 @@ export function SummaryScreen({ expenses }: SummaryScreenProps) {
           <h1 className="text-2xl font-bold text-foreground">Resumen mensual</h1>
         </div>
         <div className="bg-card border border-border rounded-xl flex items-center gap-1 px-1 py-1">
-          <button onClick={prevMonth} className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"><ChevronLeft size={16} /></button>
+          <button onClick={prevMonth} aria-label="Mes anterior" className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"><ChevronLeft size={16} /></button>
           <span className="text-sm font-semibold text-foreground px-3 min-w-[140px] text-center">{MONTHS[viewMonth]} {viewYear}</span>
-          <button onClick={nextMonth} className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"><ChevronRight size={16} /></button>
+          <button onClick={nextMonth} aria-label="Mes siguiente" className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"><ChevronRight size={16} /></button>
         </div>
       </div>
 

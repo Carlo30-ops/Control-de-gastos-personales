@@ -46,8 +46,8 @@ export default function App() {
   };
 
   return (
-    <div className={isDark ? "dark" : ""} style={{ height: "100dvh" }}>
-      <div className="flex h-full bg-background overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className={isDark ? "dark" : ""}>
+      <div className="flex min-h-[100dvh] h-full bg-background overflow-hidden app-root">
         <Sidebar screen={screen} setScreen={setScreen} isDark={isDark} toggleDarkMode={toggleDarkMode} />
         <main className="flex-1 overflow-hidden">
           {screen === "home" && (

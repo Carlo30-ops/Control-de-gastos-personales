@@ -117,7 +117,7 @@ export function ScanModal({ onResult, onClose }: ScanModalProps) {
               <p className="text-xs text-muted-foreground">OCR local · sin conexión</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors"><X size={18} /></button>
+          <button onClick={onClose} aria-label="Cerrar modal" className="text-muted-foreground hover:text-foreground transition-colors"><X size={18} /></button>
         </div>
 
         <div className="p-6">
@@ -127,6 +127,15 @@ export function ScanModal({ onResult, onClose }: ScanModalProps) {
               onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
               onDragLeave={() => setDragOver(false)}
               onClick={() => inputRef.current?.click()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  inputRef.current?.click();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Seleccionar o arrastrar factura"
               className={`border-2 border-dashed rounded-2xl p-10 flex flex-col items-center gap-4 cursor-pointer transition-all ${
                 dragOver ? "border-foreground bg-muted" : "border-border hover:border-foreground/30 hover:bg-muted/50"
               }`}
@@ -139,7 +148,8 @@ export function ScanModal({ onResult, onClose }: ScanModalProps) {
                 <p className="text-xs text-muted-foreground mt-1">o haz clic para seleccionar un archivo</p>
                 <p className="text-xs text-muted-foreground mt-3">JPG, PNG · hasta 10 MB</p>
               </div>
-              <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
+              <label htmlFor="scan-file-input" className="sr-only">Seleccionar archivo de factura</label>
+              <input id="scan-file-input" ref={inputRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
             </div>
           )}
 

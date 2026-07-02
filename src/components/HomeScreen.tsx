@@ -149,9 +149,9 @@ export function HomeScreen({ expenses, budgets, onAdd, onEdit, onDelete }: HomeS
         <div className="flex items-center gap-2">
           {!showAllMonths && (
             <div className="flex items-center gap-1 bg-card border border-border rounded-lg px-1 py-0.5">
-              <button onClick={prevMonth} className="p-1 rounded text-muted-foreground hover:text-foreground transition-colors"><ChevronLeft size={13} /></button>
+              <button onClick={prevMonth} aria-label="Mes anterior" className="p-1 rounded text-muted-foreground hover:text-foreground transition-colors"><ChevronLeft size={13} /></button>
               <span className="text-xs font-medium text-foreground px-1">{MONTHS[filterMonth].slice(0, 3)} {filterYear}</span>
-              <button onClick={nextMonth} className="p-1 rounded text-muted-foreground hover:text-foreground transition-colors"><ChevronRight size={13} /></button>
+              <button onClick={nextMonth} aria-label="Mes siguiente" className="p-1 rounded text-muted-foreground hover:text-foreground transition-colors"><ChevronRight size={13} /></button>
             </div>
           )}
           <button
@@ -203,6 +203,7 @@ export function HomeScreen({ expenses, budgets, onAdd, onEdit, onDelete }: HomeS
                         onClick={() => onEdit(exp)}
                         className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
                         title="Editar"
+                        aria-label="Editar gasto"
                       >
                         <Pencil size={13} />
                       </button>
@@ -210,6 +211,7 @@ export function HomeScreen({ expenses, budgets, onAdd, onEdit, onDelete }: HomeS
                         onClick={() => setConfirmDelete(exp.id)}
                         className="p-1 rounded-md text-muted-foreground hover:text-[#ef4444] hover:bg-[#ef4444]/10 transition-all"
                         title="Eliminar"
+                        aria-label="Eliminar gasto"
                       >
                         <Trash2 size={13} />
                       </button>
