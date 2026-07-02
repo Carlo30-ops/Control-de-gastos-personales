@@ -4,7 +4,7 @@ import { BarChart2, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Expense } from "../types";
 import { CATEGORIES, CHART_COLORS, MONTHS, today } from "../lib/constants";
 import { formatMXN } from "../lib/formatters";
-import { filterByMonthYear, sumExpenses, computeDelta, categoryBreakdown, prevMonthYear } from "../lib/calculations";
+import { filterByMonthYear, sumExpenses, computeDelta, categoryBreakdown, prevMonthYear, getCategoryAverage, getCategoryMax, getCategoryMin } from "../lib/calculations";
 import { CategoryIcon } from "./CategoryHelpers";
 
 interface SummaryScreenProps {
@@ -73,11 +73,29 @@ export function SummaryScreen({ expenses }: SummaryScreenProps) {
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Total gastado</p>
             <p className="text-4xl font-bold text-foreground mb-1">{formatMXN(total)}</p>
             {delta !== null && (
-              <p className={`text-xs font-medium mb-6 ${delta > 0 ? "text-[#ef4444]" : "text-[#16a34a]"}`}>
+              <p className={`text-xs font-medium mb-4 ${delta > 0 ? "text-[#ef4444]" : "text-[#16a34a]"}`}>
                 {delta > 0 ? "▲" : "▼"} {Math.abs(delta).toFixed(1)}% vs {MONTHS[prevM]}
               </p>
             )}
-            <ResponsiveContainer width="100%" height={280}>
+            <div className="grid w-full grid-cols-1 gap-3 mb-4 sm:grid-cols-3">
+              {CATEGORIES.map((cat) => {
+                const avg = getCategoryAverage(expenses, cat.id);
+                const max = getCategoryMax(expenses, cat.id);
+                const min = getCategoryMin(expenses, cat.id);
+                return (
+                  <div key={cat.id} className="rounded-2xl bg-muted px-3 py-3">
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground mb-2">{cat.label}</p>
+                    <p className="text-sm font-semibold text-foreground">{formatMXN(avg)}</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">Promedio</p>
+                    <div className="mt-3 text-[10px] text-muted-foreground grid grid-cols-2 gap-2">
+                      <span>Máx. {formatMXN(max)}</span>
+                      <span className="text-right">Min. {formatMXN(min)}</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <ResponsiveContainer width="100%" height={240}>
               <PieChart>
                 <Pie data={byCategory} dataKey="amount" nameKey="label" cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={3} strokeWidth={0}>
                   {byCategory.map((entry) => <Cell key={entry.id} fill={CHART_COLORS[entry.id]} />)}

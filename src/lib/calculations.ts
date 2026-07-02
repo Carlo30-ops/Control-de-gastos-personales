@@ -35,6 +35,50 @@ export function categoryBreakdown(expenses: Expense[], categories: CategoryMeta[
   return breakdown
 }
 
+function getUniqueMonthKeys(expenses: Expense[]) {
+  return Array.from(
+    new Set(
+      expenses.map((expense) => {
+        const date = new Date(expense.date + 'T00:00:00')
+        return `${date.getFullYear()}-${date.getMonth()}`
+      }),
+    ),
+  )
+}
+
+function getCategoryMonthlyTotals(expenses: Expense[], category: string) {
+  const monthKeys = getUniqueMonthKeys(expenses)
+  const totals = Object.fromEntries(monthKeys.map((key) => [key, 0])) as Record<string, number>
+
+  for (const expense of expenses) {
+    if (expense.category !== category) continue
+    const date = new Date(expense.date + 'T00:00:00')
+    const key = `${date.getFullYear()}-${date.getMonth()}`
+    totals[key] = (totals[key] ?? 0) + expense.amount
+  }
+
+  return Object.values(totals)
+}
+
+export function getCategoryAverage(expenses: Expense[], category: string) {
+  const monthTotals = getCategoryMonthlyTotals(expenses, category)
+  if (!monthTotals.length) return 0
+  const sum = monthTotals.reduce((total, value) => total + value, 0)
+  return sum / monthTotals.length
+}
+
+export function getCategoryMax(expenses: Expense[], category: string) {
+  const monthTotals = getCategoryMonthlyTotals(expenses, category)
+  if (!monthTotals.length) return 0
+  return Math.max(...monthTotals)
+}
+
+export function getCategoryMin(expenses: Expense[], category: string) {
+  const monthTotals = getCategoryMonthlyTotals(expenses, category)
+  if (!monthTotals.length) return 0
+  return Math.min(...monthTotals)
+}
+
 export function getTopCategoryFromBreakdown<T extends { id: string; amount: number }>(
   breakdown: T[],
   budgets: Partial<Record<string, number>>,
