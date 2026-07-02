@@ -1,9 +1,13 @@
 import type { ComponentType } from "react";
 
-export type Category = "comida" | "transporte" | "servicios" | "ocio" | "salud" | "otros";
+export type BuiltinCategory = "comida" | "transporte" | "servicios" | "ocio" | "salud" | "otros";
+export type CustomCategory = `custom:${string}`;
+export type Category = BuiltinCategory | CustomCategory;
 
 export interface CategoryMeta {
   id: Category;
   label: string;
-  Icon: ComponentType<{ size?: number; className?: string }>;
+  color: string;
+  Icon?: ComponentType<{ size?: number; className?: string }>;
+  custom?: boolean;
 }
